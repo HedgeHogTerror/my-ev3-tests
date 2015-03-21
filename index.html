@@ -1,0 +1,48 @@
+<html>
+<head></head>
+<body>
+<button id="button">Send Command</button>
+<input id="command" value=""></input>
+</br>
+Message:
+<input id="current_command" value="" readonly></input>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+<script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
+<script type="text/javascript">
+
+(function(){
+var button = PUBNUB.$('button');
+
+var pubnub = PUBNUB.init({
+subscribe_key: 'sub-c-e417d2b0-c958-11e4-91c8-02ee2ddab7fe',
+publish_key: 'pub-c-720e9f42-8f98-493b-ba12-c9db3deeeb19'
+});
+
+pubnub.bind('click', button, function(){	
+	
+	
+
+	pubnub.publish({
+		channel: 'command',
+		message: $('#command').val()
+
+	});
+	console.log('click');	
+	
+});
+
+pubnub.subscribe({
+    channel: 'command',
+    message: function(m){ $('#current_command').val(m);}
+});
+
+})();
+
+</script>
+
+
+	
+
+
+</html>
